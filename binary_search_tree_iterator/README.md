@@ -14,3 +14,9 @@ You may assume that next() calls will always be valid. That is, there will be at
 
 https://leetcode.com/problems/binary-search-tree-iterator/
 
+Follow up:
+
+Could you implement next() and hasNext() to run in average O(1) time and use O(h) memory, where h is the height of the tree?
+
+`Pending` : Current implementation runs in O(1) time but uses O(n) (n = number of nodes) space, need
+to figure out how to use O(h) and still run in O(1) time  
