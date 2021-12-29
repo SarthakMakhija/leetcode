@@ -1,3 +1,5 @@
+### Problem
+
 Given an integer array nums, return the length of the longest strictly increasing subsequence.
 
 A subsequence is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, [3,6,2,7] is a subsequence of the array [0,3,1,6,2,2,7].
@@ -15,3 +17,5 @@ Explanation: The longest increasing subsequence is [2,3,7,101], therefore the le
 
 Can you come up with an algorithm that runs in O(n log(n)) time complexity?
 Figure out how `Binary Search` can be applied
+
+https://leetcode.com/problems/longest-increasing-subsequence/
