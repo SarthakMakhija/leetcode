@@ -40,7 +40,7 @@ func TestContains4(t *testing.T) {
 	trie.Insert("apple")
 
 	found := trie.Search("apples")
-	if found != true {
+	if found != false {
 		t.Fatalf("Expected apples to not be found was")
 	}
 }
