@@ -1,4 +1,4 @@
-package unique_paths2
+package unique_paths_2
 
 type position struct {
 	row, col int
