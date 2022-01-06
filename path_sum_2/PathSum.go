@@ -1,4 +1,4 @@
-package path_sum2
+package path_sum_2
 
 type TreeNode struct {
 	Val   int
