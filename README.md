@@ -1,4 +1,4 @@
-# leetcode
+# leetcode [![Actions Status](https://github.com/SarthakMakhija/leetcoode/workflows/GoCI/badge.svg)](https://github.com/SarthakMakhija/leetcode/actions)
 Repository to practice `leetcode` problems
 
 # Project Structure
