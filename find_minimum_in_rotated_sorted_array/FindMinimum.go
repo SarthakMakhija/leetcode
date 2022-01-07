@@ -11,10 +11,7 @@ func findMin(nums []int) int {
 }
 
 func isRotated(nums []int) bool {
-	if nums[0] < nums[len(nums)-1] {
-		return false
-	}
-	return true
+	return nums[0] >= nums[len(nums)-1]
 }
 
 func binarySearchMinIn(nums []int, firstIndexValue int) int {

@@ -37,7 +37,7 @@ func (trie *Trie) Search(word string) bool {
 			return false
 		}
 	}
-	return head.endOfWord == true
+	return head.endOfWord
 }
 
 func (trie *Trie) StartsWith(prefix string) bool {

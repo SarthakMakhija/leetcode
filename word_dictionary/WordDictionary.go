@@ -35,7 +35,7 @@ func (wordDictionary *WordDictionary) Search(word string) bool {
 	var searchInner func(node *TrieNode, word string) bool
 	searchInner = func(node *TrieNode, word string) bool {
 		if len(word) == 0 {
-			return node.endOfWord == true
+			return node.endOfWord
 		}
 		char := rune(word[0])
 		if char != dot {

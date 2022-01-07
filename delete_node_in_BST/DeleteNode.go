@@ -51,7 +51,7 @@ func isLeaf(node *TreeNode) bool {
 
 func deleteLeaf(node *TreeNode, parent *TreeNode) {
 	if parent == nil {
-		node = nil
+		//node = nil
 		return
 	}
 	if parent.Left == node {

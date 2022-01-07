@@ -27,7 +27,6 @@ func largestValues(root *TreeNode) []int {
 		} else if largestValue <= node.Val {
 			largestValueByDepth[depth] = node.Val
 		}
-		return
 	}
 	largestValuesInner(root, 1)
 	return toSlice(largestValueByDepth)
