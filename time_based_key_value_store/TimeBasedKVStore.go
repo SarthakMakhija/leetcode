@@ -52,9 +52,6 @@ func getNearestIn(values []TimeStampedValue, timestamp int) string {
 				}
 				return getNearestInner(start, mid, 0)
 			}
-			if values[mid].timestamp < timestamp {
-				return values[mid].value
-			}
 			return ""
 		} else {
 			if mid+1 < len(values) {
