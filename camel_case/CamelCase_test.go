@@ -66,3 +66,15 @@ func TestAllCamelCaseWords6(t *testing.T) {
 		t.Fatalf("Expected %v, received %v", expected, matchingWords)
 	}
 }
+
+func TestAllCamelCaseWords7(t *testing.T) {
+	dictionary := []string{"Hello", "Hello", "Hello", "Hello"}
+	matchingWords := findAllWords(dictionary, "H")
+
+	sort.Strings(matchingWords)
+	expected := []string{"Hello", "Hello", "Hello", "Hello"}
+
+	if !reflect.DeepEqual(expected, matchingWords) {
+		t.Fatalf("Expected %v, received %v", expected, matchingWords)
+	}
+}

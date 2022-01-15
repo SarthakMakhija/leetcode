@@ -9,6 +9,7 @@ func findAllWords(dict []string, pattern string) []string {
 type Trie struct {
 	nodeByCharacter map[rune]*Trie
 	endOfWord       bool
+	occurrenceCount int
 }
 
 func NewTrie() Trie {
@@ -25,14 +26,21 @@ func (trie *Trie) Insert(word string) {
 	if len(word) == 0 {
 		return
 	}
-	head := trie
+	newInsert, head := false, trie
 	for _, char := range word {
 		if _, ok := head.nodeByCharacter[char]; !ok {
 			head.nodeByCharacter[char] = &Trie{nodeByCharacter: map[rune]*Trie{}, endOfWord: false}
+			newInsert = true
 		}
 		head = head.nodeByCharacter[char]
 	}
 	head.endOfWord = true
+	if head.occurrenceCount == 0 {
+		head.occurrenceCount = 1
+	}
+	if !newInsert {
+		head.occurrenceCount = head.occurrenceCount + 1
+	}
 }
 
 func (trie *Trie) findMatchingCamelCaseWords(pattern string) []string {
@@ -45,7 +53,9 @@ func (trie *Trie) findMatchingCamelCaseWords(pattern string) []string {
 	findMatchingCamelCaseWordsInner = func(node *Trie, patternIndex int, word string) {
 		switch {
 		case patternIndex >= len(pattern) && node.endOfWord:
-			words = append(words, word)
+			for count := 1; count <= node.occurrenceCount; count++ {
+				words = append(words, word)
+			}
 		}
 		for ch, targetNode := range node.nodeByCharacter {
 			if patternIndex < len(pattern) && (ch >= 'A' && ch <= 'Z') && ch != rune(pattern[patternIndex]) {
