@@ -78,3 +78,17 @@ func TestAllCamelCaseWords7(t *testing.T) {
 		t.Fatalf("Expected %v, received %v", expected, matchingWords)
 	}
 }
+
+func TestAllCamelCaseWords8(t *testing.T) {
+	dictionary := []string{"TestCaseSample", "TestCaseSample", "AdvantNavis", "HelloWorld", "Test", "TestCaseSampleInput", "Hi",
+		"AdvantNavis", "TestCaseSample", "TestCaseSample", "TestCase", "HiTechWorld", "AdvantNavis", "Test", "AdvantNavis", "TestCaseSampleInput", "HiTechCity", "TestCaseSampleInput", "HiTechWorld", "TestCaseSample", "Test", "TestCaseGenerator", "HiGeek", "GeeksForGeeks", "WelcomeToGeeksForGeeks", "WelcomeGeek", "HelloWorld", "TestCaseSample",
+	}
+	matchingWords := findAllWords(dictionary, "T")
+
+	sort.Strings(matchingWords)
+	expected := []string{"Test", "Test", "Test", "TestCase", "TestCaseGenerator", "TestCaseSample", "TestCaseSample", "TestCaseSample", "TestCaseSample", "TestCaseSample", "TestCaseSample", "TestCaseSampleInput", "TestCaseSampleInput", "TestCaseSampleInput"}
+
+	if !reflect.DeepEqual(expected, matchingWords) {
+		t.Fatalf("Expected %v, received %v", expected, matchingWords)
+	}
+}

@@ -1,5 +1,7 @@
 package camel_case
 
+import "fmt"
+
 func findAllWords(dict []string, pattern string) []string {
 	trie := NewTrie()
 	trie.buildDictionary(dict)
@@ -37,10 +39,10 @@ func (trie *Trie) Insert(word string) {
 	head.endOfWord = true
 	if head.occurrenceCount == 0 {
 		head.occurrenceCount = 1
-	}
-	if !newInsert {
+	} else if !newInsert {
 		head.occurrenceCount = head.occurrenceCount + 1
 	}
+	fmt.Println("inserted ", word, " occurrence count ", head.occurrenceCount)
 }
 
 func (trie *Trie) findMatchingCamelCaseWords(pattern string) []string {
