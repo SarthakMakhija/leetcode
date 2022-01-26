@@ -1,4 +1,4 @@
-package index_of_first_occurrence
+package index_of_first_occurrence_in_sorted
 
 import "testing"
 
