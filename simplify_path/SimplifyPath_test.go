@@ -46,3 +46,12 @@ func TestSimplifyPath5(t *testing.T) {
 		t.Fatalf("Expected %v, received %v", expected, canonicalPath)
 	}
 }
+
+func TestSimplifyPath6(t *testing.T) {
+	canonicalPath := simplifyPath("/home/foo/bar/room/../gate")
+	expected := "/home/foo/bar/gate"
+
+	if canonicalPath != expected {
+		t.Fatalf("Expected %v, received %v", expected, canonicalPath)
+	}
+}
