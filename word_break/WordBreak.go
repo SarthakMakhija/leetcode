@@ -5,27 +5,32 @@ import (
 )
 
 func wordBreak(s string, wordDict []string) bool {
+	if len(wordDict) == 0 {
+		return false
+	}
+
 	var wordBreakInner func(remaining string) bool
-	wordBreakCache := make(map[string]bool)
+	var wordBreakCache = make(map[string]bool)
 
 	wordBreakInner = func(remaining string) bool {
-		canBeConstructed, ok := wordBreakCache[remaining]
+		breakable, ok := wordBreakCache[remaining]
 		switch {
-		case ok:
-			return canBeConstructed
 		case len(remaining) == 0:
 			return true
+		case ok:
+			return breakable
 		}
+		isBreakPossible := false
 		for _, word := range wordDict {
-			if strings.Index(remaining, word) == 0 {
-				if wordBreakInner(remaining[len(word):]) {
-					wordBreakCache[remaining] = true
-					return true
+			if strings.HasPrefix(remaining, word) {
+				isBreakPossible = wordBreakInner(remaining[len(word):])
+				if isBreakPossible {
+					break
 				}
 			}
 		}
-		wordBreakCache[remaining] = false
-		return false
+		wordBreakCache[remaining] = isBreakPossible
+		return wordBreakCache[remaining]
 	}
 	return wordBreakInner(s)
 }

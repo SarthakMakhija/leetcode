@@ -24,3 +24,10 @@ func TestWordBreak3(t *testing.T) {
 		t.Fatalf("Expected catsandog to not be broken based on dictionary")
 	}
 }
+
+func TestWordBreak4(t *testing.T) {
+	possible := wordBreak("abcd", []string{"a", "abc", "b", "cd"})
+	if possible != true {
+		t.Fatalf("Expected abcd to be broken based on dictionary")
+	}
+}
