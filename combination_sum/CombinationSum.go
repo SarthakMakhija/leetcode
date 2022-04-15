@@ -1,115 +1,83 @@
 package combination_sum
 
-type combinationPossibility struct {
-	possible    bool
-	combination [][]int
-}
-
-type frequency struct {
-	countByValue map[int]int
-}
+import (
+	"reflect"
+)
 
 func combinationSum(candidates []int, target int) [][]int {
-	var combinationSumInner func(remaining int) combinationPossibility
+	var empty [][]int
 
-	combinationSumCache := make(map[int]combinationPossibility)
-	combinationSumInner = func(remaining int) combinationPossibility {
-		cachedCombination, ok := combinationSumCache[remaining]
+	var combinationSumInner func(remainingSum int) ([][]int, bool)
+	combinationSumInner = func(remainingSum int) ([][]int, bool) {
 		switch {
-		case ok:
-			return cachedCombination
-		case remaining == 0:
-			return combinationPossibility{possible: true, combination: [][]int{}}
-		case remaining < 0:
-			return combinationPossibility{possible: false, combination: [][]int{}}
+		case remainingSum == 0:
+			return empty, true
 		}
-		var combinations [][]int
-		var possible bool
-
-		for _, value := range candidates {
-			combinationPossibility := combinationSumInner(remaining - value)
-			localCombination, ok := combinationPossibility.combination, combinationPossibility.possible
-			if ok {
-				combinations = merge(combinations, addTo(localCombination, value))
-				possible = true
+		var allCombinations [][]int
+		for _, element := range candidates {
+			if remainingSum-element >= 0 {
+				combinations, possible := combinationSumInner(remainingSum - element)
+				if possible {
+					allCombinations = merge(allCombinations, add(combinations, element))
+				}
 			}
 		}
-		combinationSumCache[remaining] = combinationPossibility{possible: possible, combination: combinations}
-		return combinationSumCache[remaining]
+		if len(allCombinations) == 0 {
+			return allCombinations, false
+		}
+		return allCombinations, true
 	}
-	return unique(combinationSumInner(target).combination)
+	allCombinations, _ := combinationSumInner(target)
+	return allCombinations
 }
 
-func merge(first [][]int, second [][]int) [][]int {
-	merged := copy2D(first)
-	for index := 0; index < len(second); index++ {
-		merged = append(merged, second[index])
+func add(allCombinations [][]int, element int) [][]int {
+	if len(allCombinations) == 0 {
+		return append(allCombinations, []int{element})
+	}
+	var newCombinations [][]int
+	for index := 0; index < len(allCombinations); index++ {
+		newCombinations = append(newCombinations, append(allCombinations[index], element))
+	}
+	return newCombinations
+}
+
+func merge(one [][]int, other [][]int) [][]int {
+	var merged [][]int
+	var frequencies []map[int]int
+
+	for index := 0; index < len(one); index++ {
+		if f := frequencyOf(one[index]); !containsFrequency(f, frequencies) {
+			merged = append(merged, one[index])
+			frequencies = append(frequencies, f)
+		}
+	}
+	for index := 0; index < len(other); index++ {
+		if f := frequencyOf(other[index]); !containsFrequency(f, frequencies) {
+			merged = append(merged, other[index])
+			frequencies = append(frequencies, f)
+		}
 	}
 	return merged
 }
 
-func copy2D(elements [][]int) [][]int {
-	copied := make([][]int, len(elements))
-	for index := range elements {
-		copied[index] = make([]int, len(elements[index]))
-		copy(copied[index], elements[index])
-	}
-	return copied
-}
-
-func addTo(elements [][]int, element int) [][]int {
-	if len(elements) == 0 {
-		return append(elements, []int{element})
-	}
-	copied := copy2D(elements)
-	for index := 0; index < len(copied); index++ {
-		replacement := make([]int, len(copied[index])+1)
-		replacement[0] = element
-		copy(replacement[1:], copied[index])
-		copied[index] = replacement
-	}
-	return copied
-}
-
-func unique(combinations [][]int) [][]int {
-	var frequencies []frequency
-	var uniqueCombinations [][]int
-
-	for _, combination := range combinations {
-		frequency := frequencyOf(combination)
-		if !contains(frequencies, frequency) {
-			frequencies = append(frequencies, frequency)
-			uniqueCombinations = append(uniqueCombinations, combination)
+func frequencyOf(elements []int) map[int]int {
+	var frequency = make(map[int]int)
+	for _, element := range elements {
+		if count, ok := frequency[element]; ok {
+			frequency[element] = count + 1
+		} else {
+			frequency[element] = 1
 		}
 	}
-	return uniqueCombinations
+	return frequency
 }
 
-func contains(frequencies []frequency, frequency frequency) bool {
-	for _, f := range frequencies {
-		if matches(f, frequency) {
+func containsFrequency(frequency map[int]int, frequencies []map[int]int) bool {
+	for _, existingFrequency := range frequencies {
+		if reflect.DeepEqual(existingFrequency, frequency) {
 			return true
 		}
 	}
 	return false
-}
-
-func matches(one frequency, other frequency) bool {
-	if len(one.countByValue) != len(other.countByValue) {
-		return false
-	}
-	for k, value := range one.countByValue {
-		if other.countByValue[k] != value {
-			return false
-		}
-	}
-	return true
-}
-
-func frequencyOf(values []int) frequency {
-	countByValue := make(map[int]int)
-	for _, value := range values {
-		countByValue[value] = countByValue[value] + 1
-	}
-	return frequency{countByValue: countByValue}
 }
