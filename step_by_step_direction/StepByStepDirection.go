@@ -108,20 +108,20 @@ func getDirections(root *TreeNode, startValue int, destValue int) string {
 	var path strings.Builder
 	for index := 0; index < aLength-1-(totalCommon-1); index++ {
 		if startValuePath[index].level > startValuePath[index+1].level {
-			path.WriteString("U")
+			path.WriteRune('U')
 		} else if startValuePath[index].node == startValuePath[index+1].node.Left {
-			path.WriteString("L")
+			path.WriteRune('L')
 		} else if startValuePath[index].node == startValuePath[index+1].node.Right {
-			path.WriteString("R")
+			path.WriteRune('R')
 		}
 	}
 	for index := bLength - 1 - (totalCommon - 1); index > 0; index-- {
 		if destinationValuePath[index-1].level < destinationValuePath[index].level {
-			path.WriteString("U")
+			path.WriteRune('U')
 		} else if destinationValuePath[index-1].node == destinationValuePath[index].node.Left {
-			path.WriteString("L")
+			path.WriteRune('L')
 		} else if destinationValuePath[index-1].node == destinationValuePath[index].node.Right {
-			path.WriteString("R")
+			path.WriteRune('R')
 		}
 	}
 	return path.String()
